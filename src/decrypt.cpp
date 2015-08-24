@@ -4,45 +4,47 @@
 using std::vector;
 using std::string;
 
+//taken from http://www.data-compression.com/english.html
 std::map<char, double> letter_freq {
-	{'a', 0.08167},	
-	{'b', 0.01492},	
-	{'c', 0.02782},	
-	{'d', 0.04253},	
-	{'e', 0.12702},	
-	{'f', 0.02228},	
-	{'g', 0.02015},	
-	{'h', 0.06094},	
-	{'i', 0.06966},	
-	{'j', 0.00153},	
-	{'k', 0.00772},	
-	{'l', 0.04025},	
-	{'m', 0.02406},	
-	{'n', 0.06749},	
-	{'o', 0.07507},	
-	{'p', 0.01929},	
-	{'q', 0.00095},	
-	{'r', 0.05987},	
-	{'s', 0.06327},	
-	{'t', 0.09056},	
-	{'u', 0.02758},	
-	{'v', 0.00978},	
-	{'w', 0.02360},	
-	{'x', 0.00150},	
-	{'y', 0.01974},	
-	{'z', 0.00074}	
+{'a', 0.0651738},
+{'b', 0.0124248},
+{'c', 0.0217339},
+{'d', 0.0349835},
+{'e', 0.1041442},
+{'f', 0.0197881},
+{'g', 0.0158610},
+{'h', 0.0492888},
+{'i', 0.0558094},
+{'j', 0.0009033},
+{'k', 0.0050529},
+{'l', 0.0331490},
+{'m', 0.0202124},
+{'n', 0.0564513},
+{'o', 0.0596302},
+{'p', 0.0137645},
+{'q', 0.0008606},
+{'r', 0.0497563},
+{'s', 0.0515760},
+{'t', 0.0729357},
+{'u', 0.0225134},
+{'v', 0.0082903},
+{'w', 0.0171272},
+{'x', 0.0013692},
+{'y', 0.0145984},
+{'z', 0.0007836},
+{' ', 0.1918182}
 };
 
 
 static int return_largest_score(const vector<scorer>& scores){
 	int temp_max = 0;
-	int index = -1; 
+	int index = -1;
 	for(int i = 0; i < (int) scores.size();i++){
 		if(temp_max < scores[i].score){
 			temp_max = scores[i].score;
 			index = i;
-		}   
-	}   
+		}
+	}
 	return index;
 }
 
@@ -57,11 +59,10 @@ static void calculate_scores(const string encoded_message, vector<scorer>& score
 			int first = from_hex_to_decimal( encoded_message[j+1] );
 			first += from_hex_to_decimal( encoded_message[j] ) << 4;
 			int res = first ^ i;
-			scores[i].score += letter_freq[ (char) res ]  ;
+			scores[i].score += letter_freq[ (char) tolower( res) ]  ;
 			ans += char (res);
-		
-		}
 
+		}
 		scores[i].decoded_message = ans;
 
 	}
@@ -69,7 +70,7 @@ static void calculate_scores(const string encoded_message, vector<scorer>& score
 }
 
 std::string single_byte_xor_decode(const std::string& encode_str){
-	
+
 	string ans = "";
 	vector<scorer> scores(256);
 	calculate_scores(encode_str, scores);
@@ -77,5 +78,3 @@ std::string single_byte_xor_decode(const std::string& encode_str){
 	return scores[largest].decoded_message;
 
 }
-
-
