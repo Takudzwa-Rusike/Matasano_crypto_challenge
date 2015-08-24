@@ -4,27 +4,6 @@ using std::string;
 using std::pow;
 using std::stack;
 
-string convert_string_from_hex_to_base64(const string &to){
-
-	string ans = "";
-	int result = 0;
-
-
-	for(int i = 0; i < to.size() ; i+=3 ){
-		int char_left =  to.size() - (i + 1);
-
-		if(  char_left >= 3){
-			ans += convert_string( to.substr( i ,3 ) );
-		}else{
-
-			ans += convert_string ( to.substr( i , (char_left+1) ) );
-		}
-
-	}
-
-	return ans;
-}
-
 static string convert_string(const string &test){
 	stack<int> s;
 	string result_s = "";
@@ -47,6 +26,24 @@ static string convert_string(const string &test){
 	return result_s;
 }
 
+string convert_string_from_hex_to_base64(const string &to){
+
+	string ans = "";
+
+	for(int i = 0; i < (int) to.size() ; i+=3 ){
+		int char_left =  to.size() - (i + 1);
+
+		if(  char_left >= 3){
+			ans += convert_string( to.substr( i ,3 ) );
+		}else{
+
+			ans += convert_string ( to.substr( i , (char_left+1) ) );
+		}
+
+	}
+
+	return ans;
+}
 //taken from challenge page
 int from_hex_to_decimal(char hex){
 
