@@ -3,6 +3,7 @@
 using std::string;
 using std::pow;
 using std::stack;
+using std::cout;
 
 static string convert_string(const string &test){
 	stack<int> s;
@@ -26,7 +27,7 @@ static string convert_string(const string &test){
 	return result_s;
 }
 
-string convert_string_from_hex_to_base64(const string &to){
+string hex_to_base64(const string &to){
 
 	string ans = "";
 
@@ -44,6 +45,7 @@ string convert_string_from_hex_to_base64(const string &to){
 
 	return ans;
 }
+
 //taken from challenge page
 int from_hex_to_decimal(char hex){
 
@@ -55,7 +57,6 @@ int from_hex_to_decimal(char hex){
 
 	return hex - 'a' + 10;
 }
-
 
 char from_decimal_to_base64( int dec){
 
@@ -73,3 +74,33 @@ char from_decimal_to_base64( int dec){
 
 	return '\0';
 }
+
+char from_decimal_to_hex(int dec){
+
+	if(dec >= 0 && dec <= 9 ) 
+		return '0' + dec;
+
+	else if( dec >= 10 && dec <= 15) 
+		return 'a' - 10 + dec;
+
+	return '\0';
+}
+
+string xor_two_strings(const string& a, const string& b){
+	string ans;
+	if(a.size() != b.size()){
+		cout << "The two strings aren't the same size\n";
+		return "";
+	}   
+
+	for(int i = 0; i < (int) a.size() ; i++ ){  
+		int first = from_hex_to_decimal( a[i] );
+		int second = from_hex_to_decimal( b[i] );
+		int res = first ^ second;
+		ans += from_decimal_to_hex(res);
+	}   
+	return ans;
+
+
+}
+

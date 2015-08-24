@@ -15,8 +15,6 @@ int from_hex_to_decimal(char hex);
 
 char from_decimal_to_hex(int dec);
 
-bool is_vowel_or_space( char letter);
-
 int return_largest_score(const vector<scorer>& scores);
 
 void calculate_scores(const string encoded_message, vector<scorer>& scores);
@@ -41,13 +39,13 @@ int main(){
 }
 
 
-int return_largest_score(const vector<scorer>& scores){
+int return_largest_score(const vector<double>& scores){
 	int temp_max = 0;
 	int index = -1;
 
-	for(int i = 0; i < scores.size();i++){
-		if(temp_max < scores[i].score){
-			temp_max = scores[i].score;
+	for(int i = 0; i < (int) scores.size();i++){
+		if(temp_max < scores[i]){
+			temp_max = scores[i];
 			index = i;
 		}
 	}
@@ -77,36 +75,4 @@ void calculate_scores(const string encoded_message, vector<scorer>& scores){
 	}
 
 }
-
-//counting vowels and spaces as my metric
-bool is_vowel_or_space( char letter){
-	return letter == 'a' || letter == 'e' || letter == 'i' ||
-	letter == 'o' || letter == 'u' || letter == 'A' ||
-	letter == 'E' || letter == 'I' || letter == 'O' ||
-	letter == 'U' || letter == ' ';
-}
-
-//taken from challenge page
-int from_hex_to_decimal(char hex){
-	
-	if('0' <= hex && hex <='9' )
-		return hex - '0';
-
-	if( hex >= 'A' && hex <= 'Z')
-		return hex - 'A' + 10;
-
-	return hex - 'a' + 10;
-}
-
-char from_decimal_to_hex(int dec){
-	
-	if(dec >= 0 && dec <= 9 )
-		return '0' + dec;
-
-	else if( dec >= 10 && dec <= 15)
-		return 'a' - 10 + dec;
-
-	return '\0';
-}
-
 
