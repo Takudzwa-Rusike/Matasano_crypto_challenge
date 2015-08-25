@@ -1,5 +1,5 @@
 CC =g++
-OBJ = decode_encode.o decrypt.o encrypt.o
+OBJ = util.o decrypt.o encrypt.o
 FLAGS = -Wall -Werror -pedantic -std=c++11
 SRCDIR = src
 INCDIR = include
@@ -9,8 +9,8 @@ set1: $(OBJ)
 
 	$(CC) $(FLAGS) $(OBJ) set1.cpp -o set1
 
-decode_encode.o:
-	$(CC) $(FLAGS) $(SRCDIR)/decode_encode.cpp $(INCDIR)/decode_encode.hpp -c 
+util.o:
+	$(CC) $(FLAGS) $(SRCDIR)/util.cpp $(INCDIR)/util.hpp -c 
 
 decrypt.o:
 	$(CC) $(FLAGS) $(SRCDIR)/decrypt.cpp $(INCDIR)/decrypt.hpp -c 

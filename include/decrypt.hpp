@@ -16,4 +16,6 @@ struct scorer{
 
 scorer single_byte_xor_decode(const std::vector<std::string>& encode_str);
 
+std::string repeating_key_xor_decrypt(std::string to_decrypt); 
+
 #endif

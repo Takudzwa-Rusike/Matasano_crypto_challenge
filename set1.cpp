@@ -1,4 +1,4 @@
-#include "include/decode_encode.hpp"
+#include "include/util.hpp"
 #include "include/decrypt.hpp"
 #include "include/encrypt.hpp"
 #include <fstream>
@@ -78,13 +78,30 @@ int main(){
 	cout << "Repeating XOR key: \n" << ch5_key << "\n";
 	cout << "Result: \n" << repeating_key_xor_encrypt(ch5_to_encrypt, ch5_key) << "\n";
 
-/*----------------------------------CHALLENGE 5---------------------------------------------*/
+/*----------------------------------CHALLENGE 6---------------------------------------------*/
 
 	cout << "---------------------------------------\n";	
-	cout << "CHALLENGE 5:IMPLEMENT REPEATING-KEY XOR \n";
+	cout << "CHALLENGE 6:BREAK REPEATING-KEY XOR \n";
 	cout << "---------------------------------------\n";	
-
-
+	
+	string ch6_str = "",temp;	
+	
+	filestream.open("files/6.txt", fstream::in);
+	while( getline(filestream, temp)){
+		ch6_str +=temp;
+	}
+	
+	cout << "Hamm distance between 'This is a test' and 'wokka wokka!!!' is "<< 
+	ham_distance("this is a test", "wokka wokka!!!") << "\n";
+	
+	//cout << "String to break: \n" << ch6_str << "\n";
+	ch6_str = base64_to_hex( ch6_str );
+	ch6_str = from_hex_to_dec(ch6_str);
+	cout << "String to break: \n" << ch6_str << "\n";
+	repeating_key_xor_decrypt(ch6_str);
+		
+	filestream.close();
 
 	return 0;
 }
+

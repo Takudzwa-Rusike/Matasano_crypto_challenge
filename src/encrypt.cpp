@@ -1,4 +1,4 @@
-#include "../include/decode_encode.hpp"
+#include "../include/util.hpp"
 #include "../include/encrypt.hpp"
 
 using std::string;
@@ -12,7 +12,6 @@ static void encrypt_letter(const char to_encrypt, char char_to_xor, string& ans)
 	ans += first;
 	ans+=second;
 }
-
 
 string repeating_key_xor_encrypt(const std::string& to_encrypt, const std::string& key){
 	string ans = "";

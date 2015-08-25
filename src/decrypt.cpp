@@ -1,5 +1,6 @@
 #include "../include/decrypt.hpp"
-#include "../include/decode_encode.hpp"
+#include "../include/util.hpp"
+#include <iostream>
 
 using std::vector;
 using std::string;
@@ -34,7 +35,6 @@ std::map<char, double> letter_freq {
 {'z', 0.0007836},
 {' ', 0.1918182}
 };
-
 
 static int return_largest_score(const vector<scorer>& scores){
 	int temp_max = 0;
@@ -84,3 +84,38 @@ scorer single_byte_xor_decode(const vector<string>& encode_strs){
 	return key_scores[largest];
 
 }
+
+static void gather_strings(const string& decrypt_key, int key_size, vector<string>& key_blocks){
+	
+	for(unsigned i = 0; i< decrypt_key.size();i+=key_size){
+		key_blocks.push_back( decrypt_key.substr(i,key_size ) );
+	}
+
+}
+
+static void transpose_strings(const vector<string>& key_blocks, vector<string>& t_key_blocks){
+	
+	string temp = "";
+	for(unsigned i = 0; i < key_blocks[0].size();i++){
+		temp = "";
+		for(unsigned j = 0; j < key_blocks.size()-1; j++){
+			temp+=key_blocks[j][i];
+		}
+		t_key_blocks.push_back(temp);
+	}
+
+}
+
+string repeating_key_xor_decrypt(string to_decrypt){
+	string ans = "";
+	vector<string> key_blocks, t_key_blocks;
+	int key_size = get_key_size(to_decrypt);
+	gather_strings(to_decrypt, key_size, key_blocks);
+	transpose_strings( key_blocks, t_key_blocks);
+
+	return ans;
+}	
+
+
+
+
