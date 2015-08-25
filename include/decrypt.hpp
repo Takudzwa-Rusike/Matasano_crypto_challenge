@@ -10,9 +10,10 @@ extern std::map<char, double> letter_freq;
 
 struct scorer{
 	double score;
+	char key;
 	std::string decoded_message;
 };
 
-std::string single_byte_xor_decode(const std::string& encode_str);
+scorer single_byte_xor_decode(const std::vector<std::string>& encode_str);
 
 #endif

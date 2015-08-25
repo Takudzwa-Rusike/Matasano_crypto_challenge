@@ -1,10 +1,16 @@
 #include "include/decode_encode.hpp"
 #include "include/decrypt.hpp"
+#include <fstream>
 
 using std::cout;
 using std::string;
+using std::vector;
+using std::fstream;
 
 int main(){
+	
+	fstream filestream; 
+	
 	cout << "SET 1 \n";
 	cout << "---------------------------------------\n";
 	/*----------------------------------CHALLENGE 1---------------------------------------------*/
@@ -35,8 +41,28 @@ int main(){
 	cout << "---------------------------------------\n";	
 	cout << "CHALLENGE 3: \n";
 	cout << "---------------------------------------\n";	
-	string ch3_str ="1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
-	cout << single_byte_xor_decode(ch3_str) << "\n";
+	vector<string> ch3_strs {"1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"};
+	scorer ch3_result = single_byte_xor_decode(ch3_strs); 
+	cout << ch3_result.key<< ": " << ch3_result.decoded_message << "\n";
+
+	/*----------------------------------CHALLENGE 4---------------------------------------------*/
+
+	cout << "---------------------------------------\n";	
+	cout << "CHALLENGE 4: \n";
+	cout << "---------------------------------------\n";	
+
+	string ch4_key;
+	vector<string> ch4_keys;
+	
+	filestream.open("files/4.txt", fstream::in);
+	while( getline(filestream, ch4_key) )
+		ch4_keys.push_back( ch4_key );
+	
+	scorer ch4_result = single_byte_xor_decode(ch4_keys); 
+	cout << ch4_result.key<< ": " << ch4_result.decoded_message << "\n";
+
+	filestream.close();
+
 
 	return 0;
 }

@@ -53,7 +53,7 @@ static void calculate_scores(const string encoded_message, vector<scorer>& score
 	for(int i = 0; i <= 255;i++){
 		string ans = "";
 		scores[i].score = 0;
-
+		scores[i].key = (char) i;
 		for(int j = 0; j < (int) encoded_message.size() ; j+=2 ){
 
 			int first = from_hex_to_decimal( encoded_message[j+1] );
@@ -69,12 +69,18 @@ static void calculate_scores(const string encoded_message, vector<scorer>& score
 
 }
 
-std::string single_byte_xor_decode(const std::string& encode_str){
+scorer single_byte_xor_decode(const vector<string>& encode_strs){
+	
+	vector<scorer> key_scores;
+	for(unsigned i = 0; i < encode_strs.size();i++){
+		vector<scorer> scores(256);
+		calculate_scores(encode_strs[i], scores);
+		int largest = return_largest_score(scores);
+		key_scores.push_back( scores[largest] );
+	}
 
-	string ans = "";
-	vector<scorer> scores(256);
-	calculate_scores(encode_str, scores);
-	int largest = return_largest_score(scores);
-	return scores[largest].decoded_message;
+	int largest = return_largest_score(key_scores);
+	
+	return key_scores[largest];
 
 }
