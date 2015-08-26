@@ -1,4 +1,5 @@
 #include "../include/decrypt.hpp"
+#include "../include/encrypt.hpp"
 #include "../include/util.hpp"
 #include <iostream>
 
@@ -37,7 +38,7 @@ std::map<char, double> letter_freq {
 };
 
 static int return_largest_score(const vector<scorer>& scores){
-	int temp_max = 0;
+	double temp_max = 0;
 	int index = -1;
 	for(int i = 0; i < (int) scores.size();i++){
 		if(temp_max < scores[i].score){
@@ -50,7 +51,7 @@ static int return_largest_score(const vector<scorer>& scores){
 
 static void calculate_scores(const string encoded_message, vector<scorer>& scores){
 
-	for(int i = 0; i <= 255;i++){
+	for(int i = 0; i < 128;i++){
 		string ans = "";
 		scores[i].score = 0;
 		scores[i].key = (char) i;
@@ -61,7 +62,6 @@ static void calculate_scores(const string encoded_message, vector<scorer>& score
 			int res = first ^ i;
 			scores[i].score += letter_freq[ (char) tolower( res) ]  ;
 			ans += char (res);
-
 		}
 		scores[i].decoded_message = ans;
 
@@ -73,7 +73,7 @@ scorer single_byte_xor_decode(const vector<string>& encode_strs){
 	
 	vector<scorer> key_scores;
 	for(unsigned i = 0; i < encode_strs.size();i++){
-		vector<scorer> scores(256);
+		vector<scorer> scores(128);
 		calculate_scores(encode_strs[i], scores);
 		int largest = return_largest_score(scores);
 		key_scores.push_back( scores[largest] );
@@ -107,15 +107,17 @@ static void transpose_strings(const vector<string>& key_blocks, vector<string>& 
 }
 
 string repeating_key_xor_decrypt(string to_decrypt){
-	string ans = "";
+	string ans = "", key = "";
 	vector<string> key_blocks, t_key_blocks;
 	int key_size = get_key_size(to_decrypt);
 	gather_strings(to_decrypt, key_size, key_blocks);
 	transpose_strings( key_blocks, t_key_blocks);
-
-	return ans;
+	
+	for(auto i: t_key_blocks){
+		char a = most_freq_char(i) ^ ' ';
+		key+= a;
+	}
+	
+	return repeating_key_xor_encrypt(to_decrypt, key, false);
 }	
-
-
-
 

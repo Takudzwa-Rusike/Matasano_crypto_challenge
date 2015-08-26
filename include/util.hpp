@@ -26,4 +26,6 @@ double ham_distance(const std::string& a, const std::string& b);
 
 int get_key_size(const std::string& decryp_key);
 
+char most_freq_char(const std::string& to_see);
+
 #endif

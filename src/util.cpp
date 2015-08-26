@@ -223,3 +223,26 @@ int get_key_size(const string& decryp_key){
 	return index;
 }
 
+static int return_largest(const vector<int>& p){
+	double temp_max = -1;
+	int index = -1; 
+	for(int i = 0; i < (int) p.size();i++){
+		if(temp_max < p[i]){
+			temp_max = p[i];
+			index = i;
+		}   
+	}   
+	return index;
+}
+
+
+char most_freq_char(const string& to_see){
+	vector<int> chars(256);
+	for(unsigned i = 0;i <  to_see.size();i++){
+		chars[ (int) to_see[i] ]++;
+	}
+
+	return (char) return_largest(chars);
+	
+}
+

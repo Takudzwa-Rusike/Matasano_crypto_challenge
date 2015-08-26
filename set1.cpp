@@ -76,7 +76,7 @@ int main(){
 
 	cout << "String to encrypt: \n" << ch5_to_encrypt << "\n";
 	cout << "Repeating XOR key: \n" << ch5_key << "\n";
-	cout << "Result: \n" << repeating_key_xor_encrypt(ch5_to_encrypt, ch5_key) << "\n";
+	cout << "Result: \n" << repeating_key_xor_encrypt(ch5_to_encrypt, ch5_key, true) << "\n";
 
 /*----------------------------------CHALLENGE 6---------------------------------------------*/
 
@@ -94,12 +94,12 @@ int main(){
 	cout << "Hamm distance between 'This is a test' and 'wokka wokka!!!' is "<< 
 	ham_distance("this is a test", "wokka wokka!!!") << "\n";
 	
-	//cout << "String to break: \n" << ch6_str << "\n";
 	ch6_str = base64_to_hex( ch6_str );
 	ch6_str = from_hex_to_dec(ch6_str);
-	cout << "String to break: \n" << ch6_str << "\n";
-	repeating_key_xor_decrypt(ch6_str);
-		
+	string ch6_ans = repeating_key_xor_decrypt(ch6_str);
+	
+	cout << "Decrypted string: \n" << ch6_ans << "\n";	
+
 	filestream.close();
 
 	return 0;
