@@ -1,6 +1,7 @@
 #include "include/util.hpp"
 #include "include/decrypt.hpp"
 #include "include/encrypt.hpp"
+#include "include/aes.hpp"
 #include <fstream>
 
 using std::cout;
@@ -102,6 +103,55 @@ int main(){
 
 	filestream.close();
 
+	/*----------------------------------CHALLENGE 7---------------------------------------------*/
+
+	cout << "---------------------------------------\n";	
+	cout << "CHALLENGE 7:AES IN ECB MODE \n";
+	cout << "---------------------------------------\n";	
+
+	string ch7_str;
+
+
+	filestream.open("files/7.txt", fstream::in);
+	while( getline(filestream, temp)){
+		ch7_str +=temp;
+	}
+
+	ch7_str = base64_to_hex( ch7_str );
+	ch7_str = from_hex_to_dec(ch7_str);
+
+
+	unsigned char ch7_string[100000];
+	for(unsigned i = 0; i < ch7_str.size();i++){
+		ch7_string[i] = ch7_str[i];
+	}
+	ch7_string[ ch7_str.size() + 1] = '\0';
+
+	filestream.close();
+	
+	const unsigned char ch7_key[] = {'Y','E','L','L','O','W',' ','S','U','B','M','A','R','I','N','E'};
+	unsigned char ch7_ans[100000];
+	aes_in_ecb(reinterpret_cast<const unsigned char* > (ch7_string), ch7_key, ch7_ans, ch7_str.size());
+	ch7_ans[ch7_str.size() -1] = '\0';
+	
+	cout <<"Decrypted text: \n " << ch7_ans << "\n";
+	
+	/*----------------------------------CHALLENGE 8---------------------------------------------*/
+
+	cout << "---------------------------------------\n";	
+	cout << "CHALLENGE 8:DETECT AES IN ECB MODE \n";
+	cout << "---------------------------------------\n";	
+	
+	vector<string> ch8_strings;
+	filestream.open("files/8.txt", fstream::in);
+	while( getline(filestream, temp)){
+		ch8_strings.push_back(temp);
+	}
+	
+	cout << "The ECB string is on line: " << (detect_ecb(ch8_strings) + 1) << "\n";
+	
+	filestream.close();
+	
 	return 0;
 }
 

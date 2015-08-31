@@ -1,5 +1,5 @@
-#ifndef DECRYPT
-#define DECRYPT
+#ifndef DECRYPT_HPP
+#define DECRYPT_HPP
 
 #include <string>
 #include <vector>

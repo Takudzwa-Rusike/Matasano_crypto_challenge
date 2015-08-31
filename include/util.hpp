@@ -1,5 +1,5 @@
-#ifndef UTIL
-#define UTIL
+#ifndef UTIL_HPP
+#define UTIL_HPP
 
 #include <iostream>
 #include <string>
